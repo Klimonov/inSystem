@@ -8,33 +8,103 @@
           <v-icon left>person</v-icon>
           имя пользователя</v-btn>
 
-        <router-link to="/"><v-btn flat>
+        <router-link to="/"><v-btn flat class="button-exit">
           Выход</v-btn></router-link>
       </v-toolbar-items>
     </v-toolbar>
     <main>
-      <h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis cupiditate debitis dicta doloribus esse
-        explicabo, in ipsa labore laboriosam maiores natus nihil nisi porro quam quas reiciendis rem sint vitae?
-        Deserunt, reprehenderit tenetur. Ab, ad consequuntur dolor et eveniet facilis illo labore minus sed voluptate?
-        Dolores eum explicabo magnam similique soluta. Ad asperiores aspernatur corporis est exercitationem expedita
-        facere fuga ipsum laboriosam maiores quae quaerat, repellendus similique? Accusamus aliquid asperiores commodi,
-        doloremque doloribus fugiat laborum magni molestias nisi odio perspiciatis recusandae reiciendis repudiandae,
-        soluta tempore tenetur totam velit vero voluptate voluptates. Alias, atque commodi distinctio doloribus magni
-        necessitatibus recusandae saepe. A, at commodi debitis delectus dignissimos et in ipsum labore, libero neque
-        nesciunt nobis recusandae sunt. Ad aut consequatur, dignissimos ducimus eius eveniet maxime modi optio quae
-        quas. Corporis cumque delectus dignissimos error eveniet. Beatae cupiditate dolorum, et ipsum itaque odio quasi
-        quidem. Aspernatur optio quas quis reprehenderit unde? Autem excepturi id ipsa necessitatibus nesciunt quibusdam
-        repellendus. Asperiores doloribus eaque, enim, ex illo iusto minus nesciunt porro qui repudiandae sit unde!
-        Assumenda autem est ex fugiat magni natus odio placeat recusandae. A accusamus, aliquid architecto atque dolor
-        dolorum ducimus, eius esse, ipsum minus numquam porro quis repellat temporibus tenetur? Aperiam architecto atque
-        autem consectetur distinctio dolor doloremque eligendi error eveniet exercitationem facere fugit id illo ipsum
-        libero magnam molestiae mollitia nesciunt officia, perferendis placeat praesentium, provident quae ratione
-        recusandae similique sint unde voluptatem voluptatibus voluptatum. Accusamus aperiam at, debitis dignissimos
-        distinctio enim esse ex hic, id impedit ipsam libero molestias odit optio perferendis perspiciatis placeat
-        voluptates. A minus nesciunt nostrum possimus vero? Adipisci atque commodi cum cupiditate deleniti deserunt
-        dignissimos doloribus dolorum error eveniet laboriosam laborum magnam maiores, minima obcaecati officia possimus
-        quae quam quos reiciendis reprehenderit sint voluptatem. Accusantium atque dicta ipsam minus obcaecati
-        perspiciatis quod sed vitae voluptatibus.</h1>
+      <template>
+
+
+        <ul class="user-list">
+          <h3 class="users-list-title">Список пользователей</h3>
+          <li><strong>Фамилия:</strong> {{ surname }}</li>
+          <li><strong>Имя:</strong>  {{ name }}</li>
+          <li><strong>Отчество:</strong>  {{ patronymic }}</li>
+          <li><strong>Дата рождения:</strong>  {{ dateOfBirth }}</li>
+          <li><strong>Должность:</strong>  {{ position }}</li>
+          <li><strong>Подразделение:</strong>  {{ subdivision }}</li>
+          <li><strong>Телефон:</strong>  {{ phone }}</li>
+          <li><strong>Email:</strong>  {{ email }}</li>
+          <li><strong>Пароль:</strong>  {{ password }}</li>
+        </ul>
+      </template>
+
+      <template>
+
+
+        <v-form v-model="valid" class="started-form">
+          <h3>Добавить нового пользователя</h3>
+          <v-text-field
+            v-model="surname"
+            :rules="surnameRules"
+            :counter="50"
+            label="Фамилия"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="name"
+            :rules="nameRules"
+            :counter="50"
+            label="Имя"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="patronymic"
+            :rules="patronymicRules"
+            :counter="50"
+            label="Отчество"
+            required
+          ></v-text-field>
+
+          <v-text-field type="date"
+            v-model="dateOfBirth"
+            :rules="dateOfBirthRules"
+            :counter="50"
+            label="Дата рождения"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="position"
+            :counter="50"
+            label="Должность"
+          ></v-text-field>
+
+          <v-text-field
+            v-model="subdivision"
+            :counter="50"
+            label="Подразделение"
+          ></v-text-field>
+
+          <v-text-field type="tel"
+            v-model="phone"
+            :rules="phoneRules"
+            :counter="50"
+            label="Телефон"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="email"
+            :rules="emailRules"
+            label="Email"
+          ></v-text-field>
+
+          <v-text-field type="password"
+              v-model="password"
+              :rules="passwordRules"
+              :counter="6"
+              label="Пароль"
+              required
+          ></v-text-field>
+          <v-btn @click="submit">Добавить</v-btn>
+
+        </v-form>
+      </template>
+
     </main>
 
     <v-footer height="auto" class="footer">
@@ -55,9 +125,69 @@
   </v-app>
 </template>
 
+<script>
+  export default {
+    data: () => ({
+      valid: false,
+      surname: '',
+      surnameRules: [
+        v => !!v || 'Введите фамилию',
+        v => v.length <= 50 || 'Фамилия должна быть не длиннее 50 символов'
+      ],
+      name: '',
+      nameRules: [
+        v => !!v || 'Введите имя',
+        v => v.length <= 50 || 'Имя должно быть не длиннее 50 символов'
+      ],
+      patronymic: '',
+      patronymicRules: [
+        v => !!v || 'Введите отчество',
+        v => v.length <= 50 || 'Отчество должно быть не длиннее 50 символов'
+      ],
+      dateOfBirth: '',
+      dateOfBirthRules: [
+        v => !!v || 'Введите дату рождения'
+      ],
+      position: '',
+      subdivision: '',
+      phone: '',
+      phoneRules: [
+        v => !!v || 'Введите телефон',
+        v => v.length <= 50 || 'Отчество должно быть не длиннее 50 символов'
+      ],
+      email: '',
+      emailRules: [
+        v => !!v || 'Введите E-mail',
+        v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Неверный E-mail'
+      ],
+      password: '',
+      passwordRules: [
+        v => !!v || 'Введите пароль',
+        v => v.length >= 6 || 'Пароль не может быть меньше 6 символов'
+      ]
+    }),
+    methods: {
+      submit () {
+      }
+    }
+  }
+</script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
+  .user-list {
+    display: flex;
+    flex-direction: column;
+  }
+  .started-form {
+    width: 400px;
+    margin-right: 50px;
+    text-align: center;
+    padding-bottom: 170px;
+  }
+  .users-list-title {
+    margin: 0 auto;
+  }
+  h1, h2 {
   font-weight: normal;
 }
 ul {
@@ -66,7 +196,7 @@ ul {
 }
 li {
   display: inline-block;
-  margin: 0 10px;
+  margin: 10px 50px;
 }
 a {
   color: #42b983;
@@ -78,9 +208,15 @@ a {
   .toolbar {
     position: fixed;
     top: 0;
+    z-index: 100;
   }
   main {
+    display: flex;
     overflow: auto;
-    margin-top: 70px;
+    margin-top: 80px;
+    justify-content: space-between;
+  }
+  .button-exit {
+    height: 65px;
   }
 </style>
