@@ -1,52 +1,86 @@
 <template>
   <v-app>
-    <template>
-      <h1>in[system]</h1>
-      <v-form v-model="valid" class="started-form">
-        <h3>Введите учетные данные</h3>
-        <v-text-field
-          v-model="name"
-          :rules="nameRules"
-          :counter="50"
-          label="Имя"
-          required
-        ></v-text-field>
+  <h1>in[system]</h1>
+  <form class="started-form">
+    <h3>Введите учетные данные</h3>
+    <v-text-field
+      v-validate="'required|max:50'"
+      v-model="name"
+      :counter="50"
+      :error-messages="errors.collect('name')"
+      label="Имя"
+      data-vv-name="name"
+      required
+    ></v-text-field>
+    <v-text-field type="password"
+      v-validate="'required|min:6'"
+      v-model="pwd"
+      :error-messages="errors.collect('pwd')"
+      label="Пароль"
+      data-vv-name="pwd"
+      required
+    ></v-text-field>
+    <v-checkbox
+      v-validate="'required'"
+      v-model="checkbox"
+      value="1"
+      label="Запомнить"
+      data-vv-name="checkbox"
+      type="checkbox"
+    ></v-checkbox>
 
-        <v-text-field type="password"
-          v-model="password"
-          :rules="passwordRules"
-          :counter="6"
-          label="Пароль"
-          required
-        ></v-text-field>
-        <router-link to="/home"><v-btn @click="submit">Войти</v-btn></router-link>
+    <v-btn @click="submit">Войти</v-btn>
+    <v-btn @click="clear">Очистить</v-btn>
 
-      </v-form>
-    </template>
+    <router-link to="/home"><v-btn @click="submit">Войти</v-btn></router-link>
+  </form>
   </v-app>
 </template>
 
 <script>
   export default {
+    $_veeValidate: {
+      validator: 'new'
+    },
+
     data: () => ({
-      valid: false,
       name: '',
-      nameRules: [
-        v => !!v || 'Введите имя',
-        v => v.length <= 50 || 'Имя должно быть не длиннее 50 символов'
-      ],
-      password: '',
-      passwordRules: [
-        v => !!v || 'Введите пароль',
-        v => v.length >= 6 || 'Пароль не может быть меньше 6 символов'
-      ]
+      pwd: '',
+      checkbox: null,
+      dictionary: {
+        custom: {
+          pwd: {
+            required: () => 'Введите пароль',
+            min: 'Пароль не может быть короче 6 символов'
+            // custom messages
+          },
+          name: {
+            required: () => 'Введите имя',
+            max: 'Имя не может быть длинее 50 символов'
+            // custom messages
+          }
+        }
+      }
     }),
+
+    mounted () {
+      this.$validator.localize('ru', this.dictionary)
+    },
+
     methods: {
       submit () {
+        this.$validator.validateAll()
+      },
+      clear () {
+        this.name = ''
+        this.pwd = ''
+        this.checkbox = null
+        this.$validator.reset()
       }
     }
   }
 </script>
+
 <style scoped>
   h1 {
     text-align: center;
