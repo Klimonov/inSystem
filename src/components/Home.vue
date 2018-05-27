@@ -14,20 +14,26 @@
     </v-toolbar>
     <main>
       <template>
+        <h3 class="users-list-title">Список пользователей</h3>
+          <v-chip v-model="chip1" close>
+            <v-avatar>
+              <img src="https://randomuser.me/api/portraits/men/35.jpg" alt="trevor">
+            </v-avatar>
+            <ul class="user-list">
+
+              <li><strong>Фамилия:</strong> {{ surname }}</li>
+              <li><strong>Имя:</strong>  {{ name }}</li>
+              <li><strong>Отчество:</strong>  {{ patronymic }}</li>
+              <li><strong>Дата рождения:</strong>  {{ dateOfBirth }}</li>
+              <li><strong>Должность:</strong>  {{ position }}</li>
+              <li><strong>Подразделение:</strong>  {{ subdivision }}</li>
+              <li><strong>Телефон:</strong>  {{ phone }}</li>
+              <li><strong>Email:</strong>  {{ email }}</li>
+              <li><strong>Пароль:</strong>  {{ password }}</li>
+            </ul>
+          </v-chip>
 
 
-        <ul class="user-list">
-          <h3 class="users-list-title">Список пользователей</h3>
-          <li><strong>Фамилия:</strong> {{ surname }}</li>
-          <li><strong>Имя:</strong>  {{ name }}</li>
-          <li><strong>Отчество:</strong>  {{ patronymic }}</li>
-          <li><strong>Дата рождения:</strong>  {{ dateOfBirth }}</li>
-          <li><strong>Должность:</strong>  {{ position }}</li>
-          <li><strong>Подразделение:</strong>  {{ subdivision }}</li>
-          <li><strong>Телефон:</strong>  {{ phone }}</li>
-          <li><strong>Email:</strong>  {{ email }}</li>
-          <li><strong>Пароль:</strong>  {{ password }}</li>
-        </ul>
       </template>
 
       <template>
@@ -174,6 +180,14 @@
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .application .theme--light.chip, .theme--light .chip {
+    height: 400px;
+    margin-top: 30px;
+  }
+  .chip .avatar {
+    position: absolute;
+    top: 0;
+  }
   .user-list {
     display: flex;
     flex-direction: column;
@@ -185,7 +199,8 @@
     padding-bottom: 170px;
   }
   .users-list-title {
-    margin: 0 auto;
+    left: 10px;
+    position: absolute;
   }
   h1, h2 {
   font-weight: normal;
@@ -196,7 +211,7 @@ ul {
 }
 li {
   display: inline-block;
-  margin: 10px 50px;
+  margin: 10px 30px;
 }
 a {
   color: #42b983;

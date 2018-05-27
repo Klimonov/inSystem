@@ -5,7 +5,9 @@ import router from './router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import VeeValidate from 'vee-validate'
+import Registration from './components/Registration'
 
+Vue.component('app-registration', Registration)
 Vue.use(VeeValidate)
 Vue.use(Vuetify, { theme: {
   primary: '#ee44aa',
