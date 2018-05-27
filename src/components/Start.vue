@@ -118,6 +118,7 @@
     text-align: center;
     margin: auto auto 0 auto;
     font-size: 64px;
+    line-height: 2.4;
   }
   .started-form {
     height: 600px;
