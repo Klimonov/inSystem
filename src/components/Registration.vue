@@ -1,5 +1,5 @@
 <template>
-<v-form v-model="valid" class="started-form">
+  <v-form v-model="valid" class="started-form">
     <v-text-field
       v-model="surname"
       :rules="surnameRules"
@@ -25,11 +25,11 @@
     ></v-text-field>
 
     <v-text-field type="date"
-                  v-model="dateOfBirth"
-                  :rules="dateOfBirthRules"
-                  :counter="50"
-                  label="Дата рождения"
-                  required
+      v-model="dateOfBirth"
+      :rules="dateOfBirthRules"
+      :counter="50"
+      label="Дата рождения"
+      required
     ></v-text-field>
 
     <v-text-field
@@ -45,11 +45,11 @@
     ></v-text-field>
 
     <v-text-field type="tel"
-                  v-model="phone"
-                  :rules="phoneRules"
-                  :counter="50"
-                  label="Телефон"
-                  required
+      v-model="phone"
+      :rules="phoneRules"
+      :counter="50"
+      label="Телефон"
+      required
     ></v-text-field>
 
     <v-text-field
@@ -59,16 +59,16 @@
     ></v-text-field>
 
     <v-text-field type="password"
-                  v-model="password"
-                  :rules="passwordRules"
-                  :counter="6"
-                  label="Пароль"
-                  required
+      v-model="password"
+      :rules="passwordRules"
+      :counter="6"
+      label="Пароль"
+      required
     ></v-text-field>
     <v-btn @click="submit">Регистрация</v-btn>
 
   </v-form>
-  </template>
+</template>
 
 <script>
   export default {
@@ -117,11 +117,11 @@
     }
   }
 </script>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .input-group {
     height: 55px;
   }
+
   .started-form {
     height: 600px;
     width: 400px;
@@ -132,32 +132,39 @@
   h1, h2 {
     font-weight: normal;
   }
+
   ul {
     list-style-type: none;
     padding: 0;
   }
+
   li {
     display: inline-block;
     margin: 10px 30px;
   }
+
   a {
     color: #42b983;
   }
+
   .footer {
     position: fixed;
     bottom: 0;
   }
+
   .toolbar {
     position: fixed;
     top: 0;
     z-index: 100;
   }
+
   main {
     display: flex;
     overflow: auto;
     margin-top: 80px;
     justify-content: space-between;
   }
+
   .button-exit {
     height: 65px;
   }
