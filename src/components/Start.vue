@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app @submit.prevent="checkLocalStorage">
     <h1>in[system]</h1>
     <div>
       <v-tabs
@@ -19,38 +19,26 @@
           v-show="currentTab === 0"
         >
           <v-card flat>
-            <form class="started-form">
+            <v-form v-model="valid" class="started-form" @submit.prevent="enterUser">
               <v-text-field
-                v-validate="'required|max:50'"
-                v-model="name"
-                :counter="50"
-                :error-messages="errors.collect('name')"
-                label="Имя"
-                data-vv-name="name"
+                v-model="email"
+                :rules="emailRules"
+                label="Email"
                 required
               ></v-text-field>
+
               <v-text-field type="password"
-                v-validate="'required|min:6'"
-                v-model="pwd"
-                :error-messages="errors.collect('pwd')"
+                v-model="password"
+                :rules="passwordRules"
+                :counter="6"
                 label="Пароль"
-                data-vv-name="pwd"
                 required
               ></v-text-field>
-              <v-checkbox
-                v-validate="'required'"
-                v-model="checkbox"
-                value="1"
-                label="Запомнить"
-                data-vv-name="checkbox"
-                type="checkbox"
-              ></v-checkbox>
-              <v-btn @click="submit">Войти</v-btn>
+
+              <v-btn type="submit">Войти</v-btn>
               <v-btn @click="clear">Очистить</v-btn>
-              <router-link to="/home">
-                <v-btn @click="submit">Войти</v-btn>
-              </router-link>
-            </form>
+
+            </v-form>
           </v-card>
         </v-tab-item>
         <v-tab-item
@@ -68,41 +56,46 @@
 <script>
   export default {
     data: () => ({
+      valid: false,
       active: null,
-      name: '',
-      pwd: '',
-      checkbox: null,
+      email: '',
+      emailRules: [
+        v => !!v || 'Введите E-mail',
+        v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Неверный E-mail'
+      ],
+      password: '',
+      passwordRules: [
+        v => !!v || 'Введите пароль',
+        v => v.length >= 6 || 'Пароль не может быть меньше 6 символов'
+      ],
       currentTab: 0,
-      tabs: ['Вход', 'Регистрация'],
-      dictionary: {
-        custom: {
-          pwd: {
-            required: () => 'Введите пароль',
-            min: 'Пароль не может быть короче 6 символов'
-            // custom messages
-          },
-          name: {
-            required: () => 'Введите имя',
-            max: 'Имя не может быть длинее 50 символов'
-            // custom messages
-          }
-        }
-      }
+      tabs: ['Вход', 'Регистрация']
+
     }),
 
     mounted () {
       this.$validator.localize('ru', this.dictionary)
     },
-
     methods: {
-      submit () {
-        this.$validator.validateAll()
+      checkLocalStorage () {
+        if (localStorage.getItem('userEmail') !== null) {
+          this.$router.push('/home')
+        }
+        this.$router.push('/')
+      },
+      enterUser () {
+        if (this.valid === false) {
+          alert('Заполните все поля')
+        }
+        firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+          .then(() => {
+            localStorage.setItem('userEmail', this.email)
+            this.$router.push('/home')
+          })
       },
       clear () {
         this.name = ''
-        this.pwd = ''
-        this.checkbox = null
-        this.$validator.reset()
+        this.password = ''
       }
     }
   }

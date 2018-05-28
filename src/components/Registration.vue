@@ -1,5 +1,5 @@
 <template>
-  <v-form v-model="valid" class="started-form">
+  <v-form v-model="valid" class="started-form" @submit.prevent="registerUser">
     <v-text-field
       v-model="surname"
       :rules="surnameRules"
@@ -56,6 +56,7 @@
       v-model="email"
       :rules="emailRules"
       label="Email"
+      required
     ></v-text-field>
 
     <v-text-field type="password"
@@ -65,7 +66,7 @@
       label="Пароль"
       required
     ></v-text-field>
-    <v-btn @click="submit">Регистрация</v-btn>
+    <v-btn type="submit">Регистрация</v-btn>
 
   </v-form>
 </template>
@@ -74,6 +75,8 @@
   export default {
     data: () => ({
       valid: false,
+      position: '',
+      subdivision: '',
       surname: '',
       surnameRules: [
         v => !!v || 'Введите фамилию',
@@ -93,8 +96,6 @@
       dateOfBirthRules: [
         v => !!v || 'Введите дату рождения'
       ],
-      position: '',
-      subdivision: '',
       phone: '',
       phoneRules: [
         v => !!v || 'Введите телефон',
@@ -112,7 +113,22 @@
       ]
     }),
     methods: {
-      submit () {
+      registerUser () {
+        if (this.valid === false) {
+          alert('Заполните все поля')
+        }
+        firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+          .then(() => {
+            localStorage.setItem('userEmail', this.email)
+            this.surname = ''
+            this.name = ''
+            this.patronymic = ''
+            this.dateOfBirth = ''
+            this.phone = ''
+            this.email = ''
+            this.password = ''
+            this.$router.push('/home')
+          })
       }
     }
   }

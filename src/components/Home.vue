@@ -6,7 +6,7 @@
       <v-toolbar-items>
         <v-btn flat>
           <v-icon left>person</v-icon>
-          имя пользователя
+          {{ userEmailFromLockalStorage }}
         </v-btn>
 
         <router-link to="/">
@@ -40,76 +40,9 @@
       <template>
 
 
-        <v-form v-model="valid" class="started-form">
-          <h3>Добавить нового пользователя</h3>
-          <v-text-field
-            v-model="surname"
-            :rules="surnameRules"
-            :counter="50"
-            label="Фамилия"
-            required
-          ></v-text-field>
 
-          <v-text-field
-            v-model="name"
-            :rules="nameRules"
-            :counter="50"
-            label="Имя"
-            required
-          ></v-text-field>
+          <app-registration></app-registration>
 
-          <v-text-field
-            v-model="patronymic"
-            :rules="patronymicRules"
-            :counter="50"
-            label="Отчество"
-            required
-          ></v-text-field>
-
-          <v-text-field type="date"
-              v-model="dateOfBirth"
-              :rules="dateOfBirthRules"
-              :counter="50"
-              label="Дата рождения"
-              required
-          ></v-text-field>
-
-          <v-text-field
-            v-model="position"
-            :counter="50"
-            label="Должность"
-          ></v-text-field>
-
-          <v-text-field
-            v-model="subdivision"
-            :counter="50"
-            label="Подразделение"
-          ></v-text-field>
-
-          <v-text-field type="tel"
-            v-model="phone"
-            :rules="phoneRules"
-            :counter="50"
-            label="Телефон"
-            required
-          ></v-text-field>
-
-          <v-text-field
-            v-model="email"
-            :rules="emailRules"
-            label="Email"
-          ></v-text-field>
-
-          <v-text-field type="password"
-            v-model="password"
-            :rules="passwordRules"
-            :counter="6"
-            label="Пароль"
-            required
-          ></v-text-field>
-          <v-btn @click="submit">Добавить</v-btn>
-
-        </v-form>
       </template>
 
     </main>
@@ -139,6 +72,7 @@
 <script>
   export default {
     data: () => ({
+      userEmailFromLockalStorage: localStorage.getItem('userEmail'),
       valid: false,
       surname: '',
       surnameRules: [
