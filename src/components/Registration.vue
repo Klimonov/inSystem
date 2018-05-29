@@ -129,6 +129,26 @@
             this.password = ''
             this.$router.push('/home')
           })
+        const newUser = {
+          surname: this.surname,
+          name: this.name,
+          patronymic: this.patronymic,
+          dateOfBirth: this.dateOfBirth,
+          position: this.position,
+          subdivision: this.subdivision,
+          phone: this.phone,
+          email: this.email,
+          password: this.password
+        }
+        firebase.database().ref('user').push(newUser)
+          .then((info) => {
+            console.log(firebase.database().ref('user').once('value'))
+            console.log(info)
+          })
+          .catch((error) => {
+            console.log(firebase.database().ref('user').once('value'))
+            console.log(error)
+          })
       }
     }
   }

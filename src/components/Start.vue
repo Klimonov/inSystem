@@ -92,6 +92,9 @@
             localStorage.setItem('userEmail', this.email)
             this.$router.push('/home')
           })
+          .catch(() => {
+            alert('Неверный email или пароль')
+          })
       },
       clear () {
         this.name = ''
